@@ -309,8 +309,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
-
     startTimeInput.classList.remove("is-invalid")
     timeError.textContent = ""
 
