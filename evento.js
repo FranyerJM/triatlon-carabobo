@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startTime = startTimeInput.value
     if (!startTime) {
       startTimeInput.classList.add("is-invalid")
-      timeError.textContent = "Debe ingresar una hora de inicio"
+      timeError.textContent = "No puedes ingresar horas futuras"
       return
     }
 
