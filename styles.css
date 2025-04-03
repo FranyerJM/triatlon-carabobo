@@ -1,0 +1,562 @@
+/* Estilos generales */
+:root {
+  --primary-color: #0046ad;
+  --secondary-color: #d10018;
+  --text-color: #333;
+  --bg-color: #f8f9fa;
+  --card-bg: #fff;
+  --border-color: #dee2e6;
+  --header-text: #333; /* Cambiado de blanco a oscuro para mejor visibilidad */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Animaciones */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-in-out;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 2s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseSlow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Fondos y colores */
+.bg-gradient {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}
+
+.bg-primary-subtle {
+  background-color: rgba(0, 70, 173, 0.1);
+}
+
+.bg-success-subtle {
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-danger-subtle {
+  background-color: rgba(209, 0, 24, 0.1);
+}
+
+.bg-warning-subtle {
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-info-subtle {
+  background-color: rgba(13, 202, 240, 0.1);
+}
+
+/* Componentes */
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-circle i {
+  font-size: 24px;
+}
+
+/* Efectos hover */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-scale-sm:hover {
+  transform: scale(1.02);
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.hover-bg-light:hover {
+  background-color: var(--bg-color);
+}
+
+/* Estilos para la página de evento */
+.discipline-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.discipline-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.participant-progress {
+  margin-bottom: 1rem;
+}
+
+/* Modificar la altura de las imágenes de disciplinas para que se vean mejor */
+.discipline-image {
+  width: 100%;
+  height: 400px; /* Aumentado de 180px a 250px para que las imágenes se vean mejor */
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 1rem;
+}
+
+/* Ajustar el estilo de las tarjetas para que tengan la misma altura */
+.discipline-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem; /* Añadido margen inferior para separar mejor las tarjetas */
+}
+
+.discipline-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.discipline-card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.discipline-card .card-title {
+  margin-top: 0.5rem;
+}
+
+/* Notificaciones */
+#notificationsContainer {
+  max-height: 300px;
+  overflow-y: auto;
+  transition: max-height 0.3s ease;
+}
+
+/* Modificar los estilos de las notificaciones para que solo se vea una completa */
+.notifications-collapsed {
+  max-height: 65px !important; /* Ajustado para mostrar exactamente una notificación */
+  overflow-y: hidden !important;
+  position: relative;
+}
+
+/* Mejorar la animación de entrada de las notificaciones */
+.notification {
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+  animation: dropIn 0.4s ease-out;
+  transition: opacity 0.5s ease;
+}
+
+/* Nueva animación de "caída" para las notificaciones */
+@keyframes dropIn {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  70% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Eliminar el degradado y ajustar para que solo se vea una notificación */
+.notifications-collapsed::after {
+  display: none;
+}
+
+.notification {
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+  animation: slideIn 0.5s ease-in-out;
+  transition: opacity 0.5s ease;
+}
+
+#toggleNotificationsBtn {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Añadir un indicador de "más notificaciones" cuando está colapsado */
+.notifications-collapsed::after {
+  content: "";
+  display: block;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.05));
+  margin-top: -20px;
+  position: relative;
+  pointer-events: none;
+}
+
+.notification-disqualified {
+  background-color: rgba(209, 0, 24, 0.1);
+  border: 1px solid rgba(209, 0, 24, 0.2);
+}
+
+.notification-completed {
+  background-color: rgba(25, 135, 84, 0.1);
+  border: 1px solid rgba(25, 135, 84, 0.2);
+}
+
+/* Añadir estos estilos para las notificaciones de cambio de posición */
+.notification.bg-info-subtle {
+  background-color: rgba(13, 202, 240, 0.1);
+  border: 1px solid rgba(13, 202, 240, 0.2);
+}
+
+.notification.bg-warning-subtle {
+  background-color: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Estilos para las pestañas */
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+#disciplineTabs .nav-link,
+#resultsTabs .nav-link {
+  cursor: pointer;
+}
+
+#monitoringTabBtn.active,
+#resultsTabBtn.active {
+  border-bottom: 2px solid var(--primary-color);
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* Estilos para los botones */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #003a8e;
+  border-color: #003a8e;
+}
+
+.btn-danger {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background-color: #b00014;
+  border-color: #b00014;
+}
+
+.btn-outline-danger {
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-outline-danger:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: #fff;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-danger {
+  color: var(--secondary-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-danger {
+  background-color: var(--secondary-color) !important;
+}
+
+.progress-bar {
+  background-color: var(--primary-color);
+}
+
+/* Estilos para los logos */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  height: 80px;
+  object-fit: contain;
+}
+
+.logo-sm {
+  height: 60px;
+  object-fit: contain;
+}
+
+.logo-header {
+  height: 130px;
+  object-fit: contain;
+}
+
+.logo-section {
+  background-color: var(--bg-color);
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+}
+
+.logo-container-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.sponsor-logo {
+  height: 60px;
+  object-fit: contain;
+}
+
+/* Footer personalizado */
+.custom-footer {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 2rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-logo {
+  height: 70px;
+  object-fit: contain;
+}
+
+/* Mejoras de visibilidad para textos en fondos de colores */
+.bg-gradient h1,
+.bg-gradient h2,
+.bg-gradient h3,
+.bg-gradient p {
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Añadir sombra para mejorar legibilidad */
+}
+
+/* Estilos para el título principal */
+.header-title {
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.header-subtitle {
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos para participantes descalificados */
+.disqualified-participant {
+  opacity: 0.8;
+}
+
+.disqualified-participant .progress-bar {
+  background-color: var(--secondary-color);
+}
+
+/* Añadir animación para destacar cambios de velocidad */
+@keyframes speedChange {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.speed-increase {
+  animation: speedChange 0.5s ease-in-out;
+  color: #198754 !important;
+}
+
+.speed-decrease {
+  animation: speedChange 0.5s ease-in-out;
+  color: #dc3545 !important;
+}
+
+/* Mejorar la visualización de las barras de progreso */
+.progress {
+  transition: all 0.3s ease;
+}
+
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+/* Añadir efecto de "duelo" para participantes cercanos */
+.participant-duel .progress-bar {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  0% {
+    background-position: 1rem 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .logo-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .logo-container-footer {
+    flex-direction: column;
+  }
+}
+
+/* Añadir estilos para el control deslizante y la sección de configuración */
+
+/* Estilos para el control deslizante de probabilidad */
+.form-range::-webkit-slider-thumb {
+  background-color: var(--primary-color);
+}
+
+.form-range::-moz-range-thumb {
+  background-color: var(--primary-color);
+}
+
+.form-range::-ms-thumb {
+  background-color: var(--primary-color);
+}
+
+/* Estilos para la tarjeta de configuración */
+.card-header.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+/* Animación para cambios en la configuración */
+@keyframes highlight {
+  0% {
+    background-color: rgba(0, 70, 173, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+#descalificationValue {
+  display: inline-block;
+  min-width: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#descalificationValue.changed {
+  animation: highlight 1s ease-out;
+}
+

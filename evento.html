@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión del Evento - Triatlón Carabobo</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="bg-gradient py-3">
+    <div class="container">
+      <div class="logo-container">
+        <img src="https://i.ibb.co/N28S3nJt/gob-Deporte.png" alt="Gobierno de Venezuela" class="logo-header">
+        <h1 class="fs-3 fw-bold mb-0 header-title">Triatlón Carabobo</h1>
+        <img src="https://juegosnacionales2024.org/wp-content/uploads/2024/10/MinDeporte_H.png" alt="Ministerio del Deporte" class="logo-sm">
+        <img src="https://scontent.fccs10-1.fna.fbcdn.net/v/t39.30808-6/473277724_921072923546427_2032841662855783913_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SpRbEOnJT-oQ7kNvgHmvZAW&_nc_oc=Adlhu8V_luYHjccXXzlSWX_LfU4LHurc1-wZ4OkcxFuGQFjsPvUpeQxRhBkg7GlSozJEqhEJzJl8xVoOvCny8UzW&_nc_zt=23&_nc_ht=scontent.fccs10-1.fna&_nc_gid=IUQ-YNrDl0e5ivgmkngL9g&oh=00_AYGC9j41kuY0PBLv0beEzoaD1aZsT6vhQIZPlzZ9D2lfrA&oe=67F337D2" alt="Instituto de Deporte del Estado Carabobo" class="logo-sm">
+      </div>
+    </div>
+  </header>
+
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="fs-2 fw-bold">Gestión del Evento</h1>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="bg-dark text-white px-3 py-2 rounded d-flex align-items-center">
+          <i class="bi bi-stopwatch me-2"></i>
+          <span class="font-monospace fs-5" id="currentTime">00:00:00</span>
+        </div>
+        <button class="btn btn-outline-primary rounded-circle" data-bs-toggle="modal" data-bs-target="#helpModal" aria-label="Ayuda">
+          <i class="bi bi-question-circle"></i>
+        </button>
+        <a href="index.html" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left me-2"></i>
+          Volver al inicio
+        </a>
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="eventTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="preparacion-tab" data-bs-toggle="tab" data-bs-target="#preparacion" type="button" role="tab" aria-controls="preparacion" aria-selected="true">Preparación</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="evento-tab" data-bs-toggle="tab" data-bs-target="#evento" type="button" role="tab" aria-controls="evento" aria-selected="false" disabled>Evento en Curso</button>
+      </li>
+    </ul>
+    
+    <div class="tab-content mt-4" id="eventTabsContent">
+      <div class="tab-pane fade show active" id="preparacion" role="tabpanel" aria-labelledby="preparacion-tab">
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2 class="card-title fs-4 mb-0">Registro de Asistencia</h2>
+            <p class="card-text text-muted small">Marque los participantes que están presentes para el evento</p>
+          </div>
+          <div class="card-body">
+            <div id="noParticipantsMessage" class="text-center py-5 d-none">
+              <p class="text-muted mb-4">No hay participantes registrados</p>
+              <a href="registro.html" class="btn btn-primary">Ir a Registro de Participantes</a>
+            </div>
+            
+            <div id="participantsContent">
+              <div class="mb-4 p-3 border rounded bg-light">
+                <label for="startTime" class="form-label fw-medium">Hora de inicio del evento (HH:MM:SS)</label>
+                <div class="d-flex gap-2">
+                  <div class="flex-grow-1">
+                    <input type="text" class="form-control" id="startTime" placeholder="Ejemplo: 08:00:00">
+                    <div id="timeError" class="invalid-feedback"></div>
+                  </div>
+                  <button id="useCurrentTimeBtn" class="btn btn-outline-primary">
+                    <i class="bi bi-clock me-2"></i>
+                    Usar hora actual
+                  </button>
+                </div>
+                <p class="text-primary small mt-2">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Formato requerido: HH:MM:SS (ejemplo: 14:30:00)
+                </p>
+              </div>
+              
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Cédula</th>
+                      <th>Nombre</th>
+                      <th>Municipio</th>
+                      <th>Edad</th>
+                      <th class="text-center">
+                        <div class="form-check d-flex justify-content-center">
+                          <input type="checkbox" class="form-check-input" id="selectAllParticipants">
+                          <label class="form-check-label ms-1" for="selectAllParticipants">Presentes </label>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="participantsTable">
+                    <!-- Los participantes se agregarán aquí dinámicamente -->
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="text-center mt-4">
+                <button id="startEventBtn" class="btn btn-danger btn-lg">
+                  <i class="bi bi-play-fill me-2"></i>
+                  Iniciar Evento
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="tab-pane fade" id="evento" role="tabpanel" aria-labelledby="evento-tab">
+        <div id="eventContent" class="animate-fade-in">
+          <div class="bg-gradient p-4 rounded mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="fs-4 fw-bold mb-1 header-title">Evento en curso</h2>
+                <p class="mb-0 text-black">Hora de inicio: <span id="eventStartTime">--:--:--</span></p>
+              </div>
+              <div class="d-flex gap-2">
+                <button id="resetEventBtn" class="btn btn-danger">
+                  Reiniciar Evento
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-4 border-bottom">
+            <div class="d-flex">
+              <button id="monitoringTabBtn" class="flex-grow-1 py-2 px-3 text-center border-0 bg-transparent">
+                Monitoreo del Evento
+              </button>
+              <button id="resultsTabBtn" class="flex-grow-1 py-2 px-3 text-center border-0 bg-transparent">
+                Visualización de Resultados
+              </button>
+            </div>
+          </div>
+          
+          <div id="monitoringContent">
+            <div id="eventProgress" class="mb-5">
+              <h3 class="fs-5 fw-bold mb-3">Progreso del Evento</h3>
+              
+              <div class="mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="small fw-medium">Progreso General</span>
+                  <span class="small fw-medium" id="generalProgressPercent">0%</span>
+                </div>
+                <div class="progress" style="height: 8px;">
+                  <div id="generalProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              </div>
+              
+              <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                  <div class="bg-light p-3 rounded text-center">
+                    <div class="fs-3 fw-bold" id="totalParticipants">0</div>
+                    <div class="small text-muted">Participantes</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="bg-primary-subtle p-3 rounded text-center">
+                    <div class="fs-3 fw-bold text-primary" id="inProgressCount">0</div>
+                    <div class="small text-muted">En curso</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="bg-success-subtle p-3 rounded text-center">
+                    <div class="fs-3 fw-bold text-success" id="completedCount">0</div>
+                    <div class="small text-muted">Completados</div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="bg-danger-subtle p-3 rounded text-center">
+                    <div class="fs-3 fw-bold text-danger" id="disqualifiedCount">0</div>
+                    <div class="small text-muted">Descalificados</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Modificar la sección de notificaciones en evento.html -->
+              <div id="notifications" class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="fs-6 mb-0">Novedades</h5>
+                  <button id="toggleNotificationsBtn" class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-chevron-down me-1"></i>
+                    <span>Mostrar todas</span>
+                  </button>
+                </div>
+                <div id="notificationsContainer" class="notifications-collapsed">
+                  <!-- Notificaciones dinámicas aparecerán aquí -->
+                </div>
+              </div>
+              
+              <div class="text-center mb-4">
+                <button id="toggleSimulationBtn" class="btn btn-danger px-4">
+                  Pausar Simulación
+                </button>
+              </div>
+              <div class="card mb-4 mt-4">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Configuración de la Simulación</h5>
+  </div>
+  <div class="card-body">
+    <div class="mb-3">
+      <label for="descalificationProbability" class="form-label fw-medium">Probabilidad de Descalificación: <span id="descalificationValue">5%</span></label>
+      <input type="range" class="form-range" id="descalificationProbability" min="0" max="100" step="1" value="5">
+      <div class="d-flex justify-content-between small text-muted">
+        <span>0% (Sin descalificaciones)</span>
+        <span>100% (Alta probabilidad)</span>
+      </div>
+    </div>
+    <div class="alert alert-info small">
+      <i class="bi bi-info-circle me-2"></i>
+      Ajusta la probabilidad de descalificación para hacer la competencia más fácil o más difícil. Los cambios se aplicarán inmediatamente.
+    </div>
+  </div>
+</div>
+            </div>
+            
+            <div class="card mb-4">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="disciplineTabs">
+                  <li class="nav-item">
+                    <button class="nav-link active" data-discipline="caminata">Caminata (<span id="caminataCount">0</span>)</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-discipline="natacion">Natación (<span id="natacionCount">0</span>)</button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="nav-link" data-discipline="ciclismo">Ciclismo (<span id="ciclismoCount">0</span>)</button>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div id="disciplineContent">
+                  <div id="caminataContent" class="discipline-content">
+                    <h
+4 class="fs-5 mb-3">Caminata (10K) - Velocidad: 7 km/h</h4>
+                    <div id="caminataProgress" class="discipline-progress">
+                      <!-- Progreso de participantes en caminata -->
+                    </div>
+                  </div>
+                  
+                  <div id="natacionContent" class="discipline-content d-none">
+                    <h4 class="fs-5 mb-3">Natación (10K) - Velocidad: 6.192 km/h</h4>
+                    <div id="natacionProgress" class="discipline-progress">
+                      <!-- Progreso de participantes en natación -->
+                    </div>
+                  </div>
+                  
+                  <div id="ciclismoContent" class="discipline-content d-none">
+                    <h4 class="fs-5 mb-3">Ciclismo (30K) - Velocidad: 45 km/h</h4>
+                    <div id="ciclismoProgress" class="discipline-progress">
+                      <!-- Progreso de participantes en ciclismo -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-header">
+                <h3 class="fs-5 mb-0">Participantes en el Evento</h3>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Municipio</th>
+                        <th>Edad</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="eventParticipantsTable">
+                      <!-- Participantes del evento -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="resultsContent" class="d-none">
+            <h3 class="fs-5 fw-bold mb-3">Visualización de Resultados</h3>
+            
+            <ul class="nav nav-tabs mb-3" id="resultsTabs">
+              <li class="nav-item">
+                <button class="nav-link active" data-filter="todos">Todos (<span id="todosCount">0</span>)</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-filter="completados">Completados (<span id="completadosCount">0</span>)</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-filter="en-progreso">En Progreso (<span id="enProgresoCount">0</span>)</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-filter="descalificados">Descalificados (<span id="descalificadosCount">0</span>)</button>
+              </li>
+            </ul>
+            
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h4 class="fs-5 mb-0">Tabla de Clasificación (Actualización en tiempo real)</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                      <tr>
+                        <th>Posición</th>
+                        <th>Nombre</th>
+                        <th>Cédula</th>
+                        <th>Municipio</th>
+                        <th>Edad</th>
+                        <th>Caminata</th>
+                        <th>Natación</th>
+                        <th>Ciclismo</th>
+                        <th>Estado/Tiempo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="resultsTable">
+                      <!-- Resultados de participantes -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="logo-section">
+      <div class="logo-container-footer">
+        <img src="https://invialca.com/images/Invialca/Dracula.png" alt="Logo del Gobernador" class="sponsor-logo">
+        <img src="https://scontent.fccs10-1.fna.fbcdn.net/v/t39.30808-6/473277724_921072923546427_2032841662855783913_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=SpRbEOnJT-oQ7kNvgHmvZAW&_nc_oc=Adlhu8V_luYHjccXXzlSWX_LfU4LHurc1-wZ4OkcxFuGQFjsPvUpeQxRhBkg7GlSozJEqhEJzJl8xVoOvCny8UzW&_nc_zt=23&_nc_ht=scontent.fccs10-1.fna&_nc_gid=IUQ-YNrDl0e5ivgmkngL9g&oh=00_AYGC9j41kuY0PBLv0beEzoaD1aZsT6vhQIZPlzZ9D2lfrA&oe=67F337D2" alt="Instituto de Deporte del Estado Carabobo" class="sponsor-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Ayuda -->
+  <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fs-4" id="helpModalLabel">Ayuda del Sistema de Triatlón</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs" id="helpTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="false">General</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="registro-tab" data-bs-toggle="tab" data-bs-target="#registro" type="button" role="tab" aria-controls="registro" aria-selected="false">Registro</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="evento-tab" data-bs-toggle="tab" data-bs-target="#evento-help" type="button" role="tab" aria-controls="evento-help" aria-selected="true">Evento</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="resultados-tab" data-bs-toggle="tab" data-bs-target="#resultados" type="button" role="tab" aria-controls="resultados" aria-selected="false">Resultados</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-3" id="helpTabsContent">
+            <div class="tab-pane fade" id="general" role="tabpanel" aria-labelledby="general-tab">
+              <div class="bg-primary-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-clock me-2 text-primary"></i>
+                  Flujo de trabajo
+                </h5>
+                <p class="mb-2">El sistema está diseñado para seguir este flujo de trabajo:</p>
+                <ol class="ps-3">
+                  <li>Registrar participantes en la página de registro</li>
+                  <li>Iniciar el evento y marcar la asistencia de los participantes</li>
+                  <li>Ejecutar la simulación del evento</li>
+                  <li>Visualizar y exportar los resultados</li>
+                </ol>
+              </div>
+
+              <h5>Navegación</h5>
+              <p class="mb-2">La aplicación consta de las siguientes páginas:</p>
+              <ul class="ps-3">
+                <li><strong>Página principal:</strong> Información general y acceso a las funciones principales</li>
+                <li><strong>Registro:</strong> Permite registrar nuevos participantes</li>
+                <li><strong>Evento:</strong> Gestiona la asistencia y la simulación del evento</li>
+              </ul>
+            </div>
+            
+            <div class="tab-pane fade" id="registro" role="tabpanel" aria-labelledby="registro-tab">
+              <div class="bg-success-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-people me-2 text-success"></i>
+                  Registro de participantes
+                </h5>
+                <p class="mb-2">Para registrar participantes:</p>
+                <ol class="ps-3">
+                  <li>Acceda a la página de registro desde el botón "Registrar Participantes" en la página principal</li>
+                  <li>Complete todos los campos del formulario (cédula, nombre, municipio y edad)</li>
+                  <li>Haga clic en "Registrar Participante"</li>
+                  <li>Repita el proceso para cada participante</li>
+                  <li>Una vez finalizado, haga clic en "Finalizar Registro" para ir a la página del evento</li>
+                </ol>
+              </div>
+
+              <h5>Validaciones</h5>
+              <p>El sistema realiza las siguientes validaciones:</p>
+              <ul class="ps-3">
+                <li>Todos los campos son obligatorios</li>
+                <li>La edad debe ser un número positivo</li>
+                <li>No se permiten participantes con la misma cédula</li>
+              </ul>
+            </div>
+            
+            <div class="tab-pane fade show active" id="evento-help" role="tabpanel" aria-labelledby="evento-tab">
+              <div class="bg-info-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-stopwatch me-2 text-info"></i>
+                  Gestión del evento
+                </h5>
+                <p class="mb-2">Para iniciar y gestionar el evento:</p>
+                <ol class="ps-3">
+                  <li>Acceda a la página del evento desde el botón "Iniciar Evento" en la página principal</li>
+                  <li>En la pestaña "Preparación", marque los participantes que están presentes (puede usar el botón "Todos" para seleccionar a todos)</li>
+                  <li>Ingrese la hora de inicio del evento en formato HH:MM:SS (puede usar el botón "Usar hora actual")</li>
+                  <li>Haga clic en "Iniciar Evento" para comenzar la simulación</li>
+                  <li>En la pestaña "Evento en Curso", podrá ver el progreso de los participantes</li>
+                  <li>Puede pausar o reanudar la simulación con el botón correspondiente</li>
+                  <li>Puede cambiar la velocidad de simulación entre "Normal" y "Rápida" (por defecto inicia en "Rápida")</li>
+                  <li>Puede ajustar la probabilidad de descalificación de los participantes desde 0% (sin descalificaciones) hasta 100% (probabilidad máxima)</li>
+                  <li>Las notificaciones de eventos importantes aparecen en la sección "Novedades", mostrando la más reciente por defecto</li>
+                  <li>Puede ver los resultados en tiempo real haciendo clic en "Visualización de Resultados"</li>
+                  <li>Los resultados se pueden filtrar por estado: Todos, Completados, En Progreso, o Descalificados</li>
+                </ol>
+              </div>
+
+              <div class="bg-warning-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-exclamation-triangle me-2 text-warning"></i>
+                  Descalificaciones y competencia
+                </h5>
+                <p class="mb-2">Características de la competencia:</p>
+                <ul class="ps-3">
+                  <li>Los participantes pueden ser descalificados aleatoriamente si su velocidad cae por debajo del umbral mínimo (1 km/h)</li>
+                  <li>La probabilidad de descalificación se puede ajustar mediante el control deslizante en la sección de configuración</li>
+                  <li>Los participantes descalificados aparecerán al final de la tabla de resultados con su tiempo de descalificación en rojo</li>
+                  <li>La competencia incluye un factor de emoción: cuando un competidor va ganando, su velocidad puede disminuir ligeramente mientras que la del segundo lugar puede aumentar, generando mayor suspenso</li>
+                  <li>Los participantes pueden adelantarse entre sí durante la carrera, y se mostrarán notificaciones de cambios significativos de posición</li>
+                  <li>Si todos los participantes de una disciplina han terminado o están descalificados, los descalificados podrán continuar a la siguiente disciplina</li>
+                </ul>
+              </div>
+
+              <div class="bg-info-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-stopwatch me-2 text-info"></i>
+                  Tiempos y velocidades
+                </h5>
+                <p class="mb-2">El sistema simula velocidades realistas para cada disciplina:</p>
+                <ul class="ps-3">
+                  <li><strong>Caminata:</strong> Entre 5 y 7 km/h, típico para caminata deportiva</li>
+                  <li><strong>Natación:</strong> Entre 2 y 6 km/h, velocidades normales para natación en aguas abiertas</li>
+                  <li><strong>Ciclismo:</strong> Entre 20 y 45 km/h, velocidades estándar para ciclismo de ruta</li>
+                </ul>
+                <p class="mb-0">Los tiempos se registran con precisión al inicio y finalización de cada disciplina, y se muestran en la tabla de resultados junto con el tiempo total del recorrido.</p>
+              </div>
+
+              <div class="bg-success-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-bell me-2 text-success"></i>
+                  Notificaciones y actualizaciones
+                </h5>
+                <p class="mb-2">El sistema proporciona notificaciones en tiempo real:</p>
+                <ul class="ps-3">
+                  <li>Notificaciones de descalificación cuando un participante es descalificado</li>
+                  <li>Notificaciones de finalización cuando un participante completa el triatlón</li>
+                  <li>Notificaciones de cambios de posición cuando un participante sube o baja significativamente en la clasificación</li>
+                  <li>Puede ver todas las notificaciones haciendo clic en "Mostrar todas" en la sección de Novedades</li>
+                </ul>
+              </div>
+
+              <h5>Formato de hora</h5>
+              <p>El formato de hora debe ser HH:MM:SS, por ejemplo:</p>
+              <ul class="ps-3">
+                <li><code>08:30:00</code> para las 8:30 AM</li>
+                <li><code>14:15:30</code> para las 2:15 PM y 30 segundos</li>
+                <li><code>23:59:59</code> para las 11:59 PM y 59 segundos</li>
+              </ul>
+              <p class="mt-2 small text-muted">Nota: Si tiene problemas con el formato, use el botón "Usar hora actual" para obtener la hora en el formato correcto.</p>
+            </div>
+            
+            <div class="tab-pane fade" id="resultados" role="tabpanel" aria-labelledby="resultados-tab">
+              <div class="bg-warning-subtle p-3 rounded mb-3">
+                <h5 class="d-flex align-items-center">
+                  <i class="bi bi-trophy me-2 text-warning"></i>
+                  Visualización de resultados
+                </h5>
+                <p class="mb-2">Para ver y gestionar los resultados:</p>
+                <ol class="ps-3">
+                  <li>Durante o después del evento, puede ver los resultados en tiempo real</li>
+                  <li>Los participantes se ordenan automáticamente según su progreso</li>
+                  <li>Los participantes descalificados aparecen al final de la tabla</li>
+                  <li>Puede filtrar los resultados por estado (completados, en progreso, descalificados)</li>
+                  <li>Puede ver las notificaciones de cambios importantes (descalificaciones, completados, cambios de posición) en la sección "Novedades"</li>
+                  <li>El botón "Mostrar todas" permite ver el historial completo de notificaciones</li>
+                </ol>
+              </div>
+
+              <h5>Estados de los participantes</h5>
+              <p>Los participantes pueden tener los siguientes estados:</p>
+              <ul class="ps-3">
+                <li><strong>En progreso:</strong> El participante está activamente compitiendo</li>
+                <li><strong>Completado:</strong> El participante ha terminado todas las disciplinas</li>
+                <li><strong>Descalificado:</strong> El participante ha sido descalificado durante la competencia</li>
+              </ul>
+            </div>
+          </div>
+          
+          <hr>
+          
+          <h5 class="mt-3">Solución de problemas comunes</h5>
+          <div class="bg-light p-3 rounded mb-2">
+            <p class="fw-medium">No puedo acceder a alguna página</p>
+            <p class="small text-muted">Asegúrese de que todos los archivos HTML estén en la misma carpeta: index.html, registro.html y evento.html.</p>
+          </div>
+          <div class="bg-light p-3 rounded mb-2">
+            <p class="fw-medium">La hora de inicio no se acepta</p>
+            <p class="small text-muted">Verifique que está usando el formato correcto (HH:MM:SS). Utilice el botón "Usar hora actual" para obtener un formato válido.</p>
+          </div>
+          <div class="bg-light p-3 rounded">
+            <p class="fw-medium">No veo los participantes registrados</p>
+            <p class="small text-muted">Los participantes se guardan en el localStorage del navegador. Asegúrese de no haber borrado los datos del navegador y de estar usando el mismo navegador para registrar y gestionar el evento.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="custom-footer mt-4">
+  <div class="container">
+    <div class="footer-content text-center">
+      <img src="https://invialca.com/images/Invialca/Dracula.png" alt="Logo del Gobernador" class="footer-logo">
+      <p class="mb-0 text-white">© 2025 Triatlón Carabobo. Todos los derechos reservados.</p>
+      <p class="mb-0 text-white">Desarrollado por la Dirección de Sistemas y Tecnologías</p>
+      <p class="mb-0 text-white">Instituto Regional del Deporte del Estado Carabobo</p>
+      <p class="mb-0 text-white">Ingenieros encargados: Franyer Marin y Samuel Rojas</p>
+      <img src="https://juegosnacionales2024.org/wp-content/uploads/2024/10/MinDeporte_H.png" alt="Ministerio del Deporte" class="footer-logo">
+    </div>
+  </div>
+</footer>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="main.js"></script>
+  <script src="evento.js"></script>
+</body>
+</html>
+
