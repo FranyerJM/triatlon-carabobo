@@ -277,26 +277,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Iniciar evento
   startEventBtn.addEventListener("click", () => {
-    // Verificar si hay participantes presentes
-    const presentParticipants = participants.filter((p) => p.presente)
+    const presentParticipants = participants.filter((p) => p.presente);
     if (presentParticipants.length === 0) {
-      alert("No hay participantes presentes para iniciar el evento")
-      return
+        alert("No hay participantes presentes para iniciar el evento");
+        return;
     }
 
-    // Validar el formato de la hora de inicio
-    const startTime = startTimeInput.value
+    const startTime = startTimeInput.value;
     if (!startTime) {
-      startTimeInput.classList.add("is-invalid")
-      timeError.textContent = "No puedes ingresar horas futuras"
-      return
+        startTimeInput.classList.add("is-invalid");
+        timeError.textContent = "Ingresa una hora de inicio";
+        return;
     }
 
     if (!validateTimeFormat(startTime)) {
-      startTimeInput.classList.add("is-invalid")
-      timeError.textContent = "El formato debe ser HH:MM:SS"
-      return
+        startTimeInput.classList.add("is-invalid");
+        timeError.textContent = "El formato debe ser HH:MM:SS";
+        return;
     }
+
+    // Validar hora futura
+    const [hours, minutes, seconds] = startTime.split(':').map(Number);
+    const inputTime = new Date();
+    inputTime.setHours(hours, minutes, seconds, 0);
+    const now = new Date();
+    
+    if (inputTime > now) {
+        startTimeInput.classList.add("is-invalid");
+        timeError.textContent = "No puedes ingresar horas futuras";
+        return;
+    }
+
+
+
 
     startTimeInput.classList.remove("is-invalid")
     timeError.textContent = ""
