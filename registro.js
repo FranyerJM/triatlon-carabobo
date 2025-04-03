@@ -71,6 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return
     }
 
+    if (Number(edad) <= 18) {
+      showToast("Debe ser mayor de edad", "danger")
+      return
+    }
+
+    if (Number(edad) >= 80) {
+      showToast("Debe ser menor de 80", "danger")
+      return
+    }
+
     // Verificar si ya existe un participante con la misma cédula
     if (participants.some((p) => p.cedula === cedula)) {
       showToast("Ya existe un participante con esta cédula", "danger")
@@ -203,6 +213,12 @@ document.addEventListener("DOMContentLoaded", () => {
           failCount++
           return
         }
+
+        if (isNaN(Number(edad)) || Number(edad) <= 0) {
+          failCount++
+          return
+        }
+
 
         // Verificar si ya existe un participante con la misma cédula
         if (participants.some((p) => p.cedula === cedula)) {
